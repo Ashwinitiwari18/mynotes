@@ -1,0 +1,7 @@
+package com.helloAyushTiwariCompnay.mynotes; // Replace with your package name
+
+import io.flutter.app.FlutterMultiDexApplication;
+
+public class MyApp extends FlutterMultiDexApplication {
+    // ...
+}

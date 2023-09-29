@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "122828802959",
+    "project_id": "mynotes-flutter-fire-124",
+    "storage_bucket": "mynotes-flutter-fire-124.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:122828802959:android:6d6a8eb47754a6235519fa",
+        "android_client_info": {
+          "package_name": "com.helloAyushTiwariCompnay.mynotes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTRrJtXj-YJZ03bpq9VUI1LX4Ev3sbluI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
