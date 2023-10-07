@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer' as devtools show log;
 
 import 'package:mynotes/constants/routes.dart';
+import 'package:mynotes/utilities/show_error_dialog.dart';
 
 class LoginVeiw extends StatefulWidget {
   const LoginVeiw({Key? key}) : super(key: key);
@@ -69,14 +70,16 @@ class _LoginVeiwState extends State<LoginVeiw> {
                 );
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'user-not-found') {
-                  devtools.log('User not Found');
+                  await showErrorDialog(context, 'User not found');
                 } else if (e.code == 'wrong-password') {
-                  devtools.log('Incorrect password.');
+                  await showErrorDialog(context, 'Wrong CREDENTIALS');
                 } else if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
-                  devtools.log('INVALID LOGIN CREDENTIALS');
+                  await showErrorDialog(context, 'INVALID LOGIN CREDENTIALS');
                 } else {
-                  devtools.log('Something bad happened');
+                  await showErrorDialog(context, e.code);
                 }
+              } catch(e){
+                await showErrorDialog(context, e.toString());
               }
             },
             child: const Text('Login'),
