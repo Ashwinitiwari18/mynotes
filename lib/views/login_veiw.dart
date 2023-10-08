@@ -60,27 +60,48 @@ class _LoginVeiwState extends State<LoginVeiw> {
               final email = _email.text;
               final password = _password.text;
               try {
-                final userCredential =
-                    await FirebaseAuth.instance.signInWithEmailAndPassword(
+                await FirebaseAuth.instance.signInWithEmailAndPassword(
                   email: email,
                   password: password,
                 );
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                  notesRoute,
-                  (route) => false,
-                );
+                final user = FirebaseAuth.instance.currentUser;
+                if (user?.emailVerified ?? false) {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    notesRoute,
+                    (route) => false,
+                  );
+                } else {
+                  Navigator.of(context).pushNamed(
+                    verifyEmailRoute,
+                  );
+                }
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'user-not-found') {
-                  await showErrorDialog(context, 'User not found',);
+                  await showErrorDialog(
+                    context,
+                    'User not found',
+                  );
                 } else if (e.code == 'wrong-password') {
-                  await showErrorDialog(context, 'Wrong CREDENTIALS',);
+                  await showErrorDialog(
+                    context,
+                    'Wrong CREDENTIALS',
+                  );
                 } else if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
-                  await showErrorDialog(context, 'INVALID LOGIN CREDENTIALS',);
+                  await showErrorDialog(
+                    context,
+                    'INVALID LOGIN CREDENTIALS',
+                  );
                 } else {
-                  await showErrorDialog(context, e.code,);
+                  await showErrorDialog(
+                    context,
+                    e.code,
+                  );
                 }
-              } catch(e){
-                await showErrorDialog(context, e.toString(),);
+              } catch (e) {
+                await showErrorDialog(
+                  context,
+                  e.toString(),
+                );
               }
             },
             child: const Text('Login'),
