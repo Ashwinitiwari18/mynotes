@@ -1,5 +1,3 @@
-import 'dart:js_interop';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mynotes/services/cloud/cloud_note.dart';
 import 'package:mynotes/services/cloud/cloud_storage_constants.dart';
@@ -15,7 +13,7 @@ class FirebaseCloudStorage {
       throw CouldNotDeleteNoteException();
     }
   }
- 
+
   Future<void> updateNote({
     required String documentId,
     required String text,
@@ -43,24 +41,24 @@ class FirebaseCloudStorage {
           )
           .get()
           .then(
-            (value) => value.docs.map(
-              (doc) => CloudNote(
-                documentId: doc.id,
-                ownerUserId: doc.data()[ownerUserId] as String,
-                text: doc.data()[textFieldName],
-              ),
-            ),
+            (value) => value.docs.map((doc) => CloudNote.fromSnapshot(doc)),
           );
     } catch (e) {
       throw CouldNotGetAllNotesException();
     }
   }
 
-  void createNewNote({required String ownerUserId}) async {
-    await notes.add({
+  Future<CloudNote> createNewNote({required String ownerUserId}) async {
+    final document = await notes.add({
       ownerUserIdFieldName: ownerUserId,
       textFieldName: '',
     });
+    final fetchedNode = await document.get();
+    return CloudNote(
+      documentId: fetchedNode.id,
+      ownerUserId: ownerUserId,
+      text: '',
+    );
   }
 
   static final FirebaseCloudStorage _shared =

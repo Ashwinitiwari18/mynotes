@@ -85,7 +85,7 @@ class _LoginVeiwState extends State<LoginVeiw> {
                   context,
                   'Wrong CREDENTIALS',
                 );
-              } on GenericAuthException  catch (e){
+              } on GenericAuthException{
                 await showErrorDialog(
                   context,
                   'Authentication Error',
