@@ -34,14 +34,6 @@ class NoteService {
         throw UserShouldBeSetBeforeReadingAllNotes();
       });
 
-  Future<void> _ensureDbIsOpen() async {
-    try {
-      await open();
-    } on DatabaseAlreadyOpenException {
-      // empty
-    }
-  }
-
   Future<DatabaseUser> getOrCreateUser({
     required String email,
     bool setAsCurrentUser = true,
@@ -60,6 +52,14 @@ class NoteService {
       return user;
     } catch (e) {
       rethrow;
+    }
+  }
+
+  Future<void> _ensureDbIsOpen() async {
+    try {
+      await open();
+    } on DatabaseAlreadyOpenException {
+      // empty
     }
   }
 
@@ -311,6 +311,9 @@ class DatabaseNote {
   @override
   String toString() =>
       'Note, ID = $id, userId = $userId, isSyncedWithCloud = $isSyncedWithCloud, text = $text';
+
+  @override
+  bool operator ==(covariant DatabaseNote other) => id == other.id;
 
   @override
   int get hashCode => id.hashCode;
