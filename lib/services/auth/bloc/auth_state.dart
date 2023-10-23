@@ -4,35 +4,51 @@ import 'package:mynotes/services/auth/auth_user.dart';
 
 @immutable
 abstract class AuthState {
-  const AuthState();
+  final bool isLoading;
+  final String? loadingText;
+  const AuthState({
+    required this.isLoading,
+    this.loadingText = 'Plase wait a moment',
+  });
 }
 
 class AuthStateUninitialized extends AuthState {
-  const AuthStateUninitialized();
+  const AuthStateUninitialized({required bool isLoading})
+      : super(isLoading: isLoading);
 }
 
 class AuthStateRegistering extends AuthState {
   final Exception exception;
-  const AuthStateRegistering(this.exception);
+  const AuthStateRegistering({
+    required this.exception,
+    required bool isLoading,
+  }) : super(isLoading: isLoading);
 }
 
 class AuthStateLoggedIn extends AuthState {
   final AuthUser user;
-  const AuthStateLoggedIn(this.user);
+  const AuthStateLoggedIn({
+    required this.user,
+    required bool isLoading,
+  }) : super(isLoading: isLoading);
 }
 
 class AuthStateNeedsVerification extends AuthState {
-  const AuthStateNeedsVerification();
+  const AuthStateNeedsVerification({required bool isLoading})
+      : super(isLoading: isLoading);
 }
 
 class AuthStateLoggedout extends AuthState with EquatableMixin {
   final Exception? exception;
-  final bool isLoding;
   const AuthStateLoggedout({
     required this.exception,
-    required this.isLoding,
-  });
+    required bool isLoding,
+    String? loadingText,
+  }) : super(
+          isLoading: isLoding,
+          loadingText: loadingText,
+        );
 
   @override
-  List<Object?> get props => [exception, isLoding];
+  List<Object?> get props => [exception, isLoading];
 }
